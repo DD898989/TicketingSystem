@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:alpine
+    container_name: ticketing_redis
+    ports:
+      - "6379:6379"
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ticketing_api
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./db:/app/db
+    depends_on:
+      - redis
